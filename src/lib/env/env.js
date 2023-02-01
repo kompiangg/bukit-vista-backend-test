@@ -9,6 +9,7 @@ const schema = yup.object({
   DATABASE_HOST: yup.string().required(),
   DATABASE_PORT: yup.number().required(),
   DATABASE_NAME: yup.string().required(),
+  JWT_SECRET_KEY: yup.string().required(),
 });
 
 const validateEnv = await schema

@@ -31,7 +31,7 @@ app.use(express.json());
 const authRepository = new AuthRepository(model);
 
 // Service
-const authService = new AuthService(authRepository);
+const authService = new AuthService(authRepository, env);
 
 // Controller
 const authController = new AuthController(authService);

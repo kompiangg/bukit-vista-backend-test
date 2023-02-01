@@ -2,7 +2,7 @@ import { StatusCodes } from 'http-status-codes';
 
 /**
  *
- * @param {Error} err The inheritence of Error class
+ * @param {Error} err The inheritance of Error class
  * @returns {Error} Return the error or internal server error for undefined error
  */
 export default function checkError(err) {
@@ -18,7 +18,7 @@ class BadRequest extends Error {
     this.name = 'BadRequest';
     this.code = StatusCodes.BAD_REQUEST;
     if (detail) {
-      this.detail = detail;
+      this.detail = [...detail];
     }
   }
 }
@@ -39,10 +39,22 @@ class Forbidden extends Error {
   }
 }
 
+class Unauthorized extends Error {
+  constructor(detail = null) {
+    super('unauthorized');
+    this.name = 'Unauthorized';
+    this.code = StatusCodes.UNAUTHORIZED;
+    if (detail) {
+      this.detail = [detail];
+    }
+  }
+}
+
 const errDict = {
   BadRequest,
   InternalServerError,
   Forbidden,
+  Unauthorized,
 };
 
-export { BadRequest, InternalServerError, Forbidden };
+export { BadRequest, InternalServerError, Forbidden, Unauthorized };

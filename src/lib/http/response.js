@@ -1,5 +1,5 @@
 import { StatusCodes } from 'http-status-codes';
-import checkError from './error.js';
+import checkError from '../error/error.js';
 
 function writeJSONResponse({ res, code, data }) {
   if (!code) {
