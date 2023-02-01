@@ -3,6 +3,11 @@ import * as yup from 'yup';
 
 const schema = yup.object({
   APP_PORT: yup.number().required(),
+  DATABASE_USERNAME: yup.string().required(),
+  DATABASE_PASSWORD: yup.string().required(),
+  DATABASE_HOST: yup.string().required(),
+  DATABASE_PORT: yup.number().required(),
+  DATABASE_NAME: yup.string().required(),
 });
 
 const validateEnv = await schema
