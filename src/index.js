@@ -14,6 +14,7 @@ import MoviesController from './controller/moviesController.js';
 import initMoviesRouter from './router/moviesRouter.js';
 import JWTMiddleware from './middleware/jwtMiddleware.js';
 import initOMDBAPIClient from './lib/api_client/omdbAPIClient.js';
+import initPinoLogger from './middleware/pinoLogger.js';
 
 const app = express();
 
@@ -33,6 +34,7 @@ const omdbClient = initOMDBAPIClient(env.OMDB_ACCESS_KEY_API);
 // Middleware
 const jwtMiddleware = JWTMiddleware(env);
 app.use(express.json());
+app.use(initPinoLogger());
 
 // Repository
 const authRepository = new AuthRepository(model);
