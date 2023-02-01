@@ -27,7 +27,31 @@ export default class MoviesController {
       if (err.name === 'ValidationError') {
         return writeErrorResponse({ res, err: new BadRequest(err.errors) });
       } else {
-        return writeErrorResponse({ res, err: err });
+        return writeErrorResponse({ res, err });
+      }
+    }
+  };
+
+  getMoviesPoster = async (req, res) => {
+    try {
+      const title = await yup
+        .string()
+        .required()
+        .validate(req.params.movieTitle);
+
+      const { title: fullTitle, poster } = await this.service.getMoviesPoster(
+        title
+      );
+      return writeJSONResponse({
+        res,
+        code: StatusCodes.OK,
+        data: { title: fullTitle, poster },
+      });
+    } catch (err) {
+      if (err.name === 'ValidationError') {
+        return writeErrorResponse({ res, err: new BadRequest(err.errors) });
+      } else {
+        return writeErrorResponse({ res, err });
       }
     }
   };

@@ -26,7 +26,6 @@ export default function JWTMiddleware(env) {
       const userContext = extractJWTToken(splittedToken, env.JWT_SECRET_KEY);
       req.userContext = userContext;
     } catch (error) {
-      console.log(error);
       return writeErrorResponse({
         res,
         err: new Unauthorized('token expired'),

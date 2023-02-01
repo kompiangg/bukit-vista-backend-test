@@ -13,6 +13,7 @@ import MoviesService from './service/moviesService.js';
 import MoviesController from './controller/moviesController.js';
 import initMoviesRouter from './router/moviesRouter.js';
 import JWTMiddleware from './middleware/jwtMiddleware.js';
+import initOMDBAPIClient from './lib/api_client/omdbAPIClient.js';
 
 const app = express();
 
@@ -27,6 +28,7 @@ const db = new Database(
 
 await db.initConnection();
 const model = new Model(db.connection);
+const omdbClient = initOMDBAPIClient(env.OMDB_ACCESS_KEY_API);
 
 // Middleware
 const jwtMiddleware = JWTMiddleware(env);
@@ -38,7 +40,7 @@ const moviesRepository = new MoviesRepository(model);
 
 // Service
 const authService = new AuthService(authRepository, env);
-const moviesService = new MoviesService(moviesRepository);
+const moviesService = new MoviesService(moviesRepository, omdbClient);
 
 // Controller
 const authController = new AuthController(authService);

@@ -27,8 +27,7 @@ export default class AuthController {
       if (err.name === 'ValidationError') {
         return writeErrorResponse({ res, err: new BadRequest(err.errors) });
       } else {
-        console.log(err.stack);
-        return writeErrorResponse({ res, err: err });
+        return writeErrorResponse({ res, err });
       }
     }
   };
@@ -54,7 +53,7 @@ export default class AuthController {
       if (err.name === 'ValidationError') {
         return writeErrorResponse({ res, err: new BadRequest(err.errors) });
       } else {
-        return writeErrorResponse({ res, err: err });
+        return writeErrorResponse({ res, err });
       }
     }
   };

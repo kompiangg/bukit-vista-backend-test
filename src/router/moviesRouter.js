@@ -12,6 +12,12 @@ export default function initMoviesRouter(controller, middleware) {
     handleAsync(controller.insertFavoriteMovie)
   );
 
+  moviesRouter.get(
+    '/movies/:movieTitle',
+    middleware.jwtMiddleware,
+    handleAsync(controller.getMoviesPoster)
+  );
+
   moviesRouter.get('/movies', (req, res) => {
     return writeErrorResponse({ res, err: new Forbidden() });
   });
