@@ -13,10 +13,13 @@ export default function checkError(err) {
 }
 
 class BadRequest extends Error {
-  constructor() {
+  constructor(detail = null) {
     super('bad request');
     this.name = 'BadRequest';
     this.code = StatusCodes.BAD_REQUEST;
+    if (detail) {
+      this.detail = detail;
+    }
   }
 }
 

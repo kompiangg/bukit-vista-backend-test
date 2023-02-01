@@ -2,12 +2,16 @@ import { Sequelize } from 'sequelize';
 import sleep from '../sleep/sleep.js';
 
 export default class Database {
-  constructor(username, password, host, port, database) {
+  constructor(username, password, host, port, database, env = 'dev') {
     this.uri = `mysql://${username}:${password}@${host}:${port}/${database}`;
+    this.env = env;
   }
 
   async initConnection() {
-    this.connection = new Sequelize(this.uri);
+    const isLogging = this.env === 'dev' ? true : false;
+    this.connection = new Sequelize(this.uri, {
+      logging: isLogging,
+    });
 
     let isError = true;
     for (let i = 1; i <= 5; i++) {

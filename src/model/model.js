@@ -1,43 +1,56 @@
 import { DataTypes } from 'sequelize';
 
+const modifiedDateField = {
+  createdAt: 'created_at',
+  updatedAt: 'updated_at',
+};
+
 export default class Model {
   constructor(db) {
     this.db = db;
 
-    this.User = db.define('users', {
-      user_id: {
-        type: DataTypes.INTEGER,
-        primaryKey: true,
-        autoIncrement: true,
-      },
-      name: {
-        type: DataTypes.STRING,
-        unique: true,
-      },
-      password: {
-        type: DataTypes.STRING,
-      },
-    });
-
-    this.FavoriteMovies = db.define('favorite_movies', {
-      id: {
-        type: DataTypes.INTEGER,
-        primaryKey: true,
-        autoIncrement: true,
-      },
-      title: {
-        type: DataTypes.STRING,
-        unique: 'unique_title',
-      },
-      user_id: {
-        type: DataTypes.INTEGER,
-        references: {
-          model: 'users',
-          key: 'user_id',
+    this.User = db.define(
+      'users',
+      {
+        user_id: {
+          type: DataTypes.INTEGER,
+          primaryKey: true,
+          autoIncrement: true,
         },
-        unique: 'unique_title',
+        name: {
+          type: DataTypes.STRING,
+          unique: true,
+        },
+        password: {
+          type: DataTypes.STRING,
+        },
       },
-    });
+      modifiedDateField
+    );
+
+    this.FavoriteMovies = db.define(
+      'favorite_movies',
+      {
+        id: {
+          type: DataTypes.INTEGER,
+          primaryKey: true,
+          autoIncrement: true,
+        },
+        title: {
+          type: DataTypes.STRING,
+          unique: 'unique_title',
+        },
+        user_id: {
+          type: DataTypes.INTEGER,
+          references: {
+            model: 'users',
+            key: 'user_id',
+          },
+          unique: 'unique_title',
+        },
+      },
+      modifiedDateField
+    );
   }
 
   async sync() {

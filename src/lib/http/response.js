@@ -12,8 +12,13 @@ function writeJSONResponse({ res, code, data }) {
   });
 }
 
-function writeErrorResponse({ res, err, detail }) {
+function writeErrorResponse({ res, err }) {
   err = checkError(err);
+  let detail;
+
+  if (err.detail) {
+    detail = err.detail;
+  }
 
   return res.status(err.code).json({
     data: null,

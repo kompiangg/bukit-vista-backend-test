@@ -4,6 +4,10 @@ import { writeErrorResponse } from './lib/http/response.js';
 import initPingRouter from './router/pingRouter.js';
 import Database from './lib/database/connection.js';
 import Model from './model/model.js';
+import initAuthRouter from './router/authRouter.js';
+import AuthController from './controller/authController.js';
+import AuthRepository from './repository/authRepository.js';
+import AuthService from './service/authService.js';
 
 const app = express();
 
@@ -12,7 +16,8 @@ const db = new Database(
   env.DATABASE_PASSWORD,
   env.DATABASE_HOST,
   env.DATABASE_PORT,
-  env.DATABASE_NAME
+  env.DATABASE_NAME,
+  env.ENVIRONMENT
 );
 await db.initConnection();
 
@@ -23,13 +28,17 @@ const model = new Model(db.connection);
 app.use(express.json());
 
 // Repository
+const authRepository = new AuthRepository(model);
 
 // Service
+const authService = new AuthService(authRepository);
 
-// Handler
+// Controller
+const authController = new AuthController(authService);
 
 // Router
 app.use(initPingRouter());
+app.use(initAuthRouter(authController));
 
 // Middleware Global Error Handler
 // eslint-disable-next-line no-unused-vars
