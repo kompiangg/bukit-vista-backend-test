@@ -18,7 +18,7 @@ class BadRequest extends Error {
     this.name = 'BadRequest';
     this.code = StatusCodes.BAD_REQUEST;
     if (detail) {
-      this.detail = [...detail];
+      this.detail = [detail];
     }
   }
 }

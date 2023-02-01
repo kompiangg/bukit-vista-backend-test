@@ -8,7 +8,11 @@ import initAuthRouter from './router/authRouter.js';
 import AuthController from './controller/authController.js';
 import AuthRepository from './repository/authRepository.js';
 import AuthService from './service/authService.js';
-// import JWTMiddleware from './middleware/jwtMiddleware.js';
+import MoviesRepository from './repository/moviesRepository.js';
+import MoviesService from './service/moviesService.js';
+import MoviesController from './controller/moviesController.js';
+import initMoviesRouter from './router/moviesRouter.js';
+import JWTMiddleware from './middleware/jwtMiddleware.js';
 
 const app = express();
 
@@ -20,25 +24,30 @@ const db = new Database(
   env.DATABASE_NAME,
   env.ENVIRONMENT
 );
+
 await db.initConnection();
 const model = new Model(db.connection);
 
 // Middleware
-// const jwtMiddleware = JWTMiddleware(env);
+const jwtMiddleware = JWTMiddleware(env);
 app.use(express.json());
 
 // Repository
 const authRepository = new AuthRepository(model);
+const moviesRepository = new MoviesRepository(model);
 
 // Service
 const authService = new AuthService(authRepository, env);
+const moviesService = new MoviesService(moviesRepository);
 
 // Controller
 const authController = new AuthController(authService);
+const moviesController = new MoviesController(moviesService);
 
 // Router
 app.use(initPingRouter());
 app.use(initAuthRouter(authController));
+app.use(initMoviesRouter(moviesController, { jwtMiddleware }));
 
 // Middleware Global Error Handler
 // eslint-disable-next-line no-unused-vars
@@ -49,5 +58,3 @@ app.use((err, req, res, next) => {
 app.listen(env.APP_PORT, () => {
   console.log(`[INFO] Server started and listened on port ${env.APP_PORT}`);
 });
-
-await db.closeConnection();

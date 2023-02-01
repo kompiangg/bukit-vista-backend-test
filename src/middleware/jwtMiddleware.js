@@ -4,7 +4,7 @@ import { extractJWTToken } from '../lib/token/jwt.js';
 
 export default function JWTMiddleware(env) {
   return function (req, res, next) {
-    const token = req.headers['Authorization'];
+    const token = req.headers['authorization'];
 
     if (!token) {
       return writeErrorResponse({
@@ -13,7 +13,9 @@ export default function JWTMiddleware(env) {
       });
     }
 
-    if (token.split('.').length != 3) {
+    const splittedToken = token.slice(7);
+
+    if (splittedToken.split('.').length !== 3) {
       return writeErrorResponse({
         res,
         err: new BadRequest('authorization token have invalid format'),
@@ -21,9 +23,10 @@ export default function JWTMiddleware(env) {
     }
 
     try {
-      const userContext = extractJWTToken(token, env.JWT_SECRET_KEY);
+      const userContext = extractJWTToken(splittedToken, env.JWT_SECRET_KEY);
       req.userContext = userContext;
     } catch (error) {
+      console.log(error);
       return writeErrorResponse({
         res,
         err: new Unauthorized('token expired'),

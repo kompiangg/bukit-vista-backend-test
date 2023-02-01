@@ -25,9 +25,9 @@ export default class AuthController {
       });
     } catch (err) {
       if (err.name === 'ValidationError') {
-        const detail = err.errors;
-        return writeErrorResponse({ res, err: new BadRequest(detail) });
+        return writeErrorResponse({ res, err: new BadRequest(err.errors) });
       } else {
+        console.log(err.stack);
         return writeErrorResponse({ res, err: err });
       }
     }
@@ -52,8 +52,7 @@ export default class AuthController {
       });
     } catch (err) {
       if (err.name === 'ValidationError') {
-        const detail = err.errors;
-        return writeErrorResponse({ res, err: new BadRequest(detail) });
+        return writeErrorResponse({ res, err: new BadRequest(err.errors) });
       } else {
         return writeErrorResponse({ res, err: err });
       }
