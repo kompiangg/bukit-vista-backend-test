@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 
-export default function createJWTToken(userID, username, secretKey) {
+function createJWTToken(userID, username, secretKey) {
   const token = jwt.sign(
     {
       user_id: userID,
@@ -12,3 +12,10 @@ export default function createJWTToken(userID, username, secretKey) {
 
   return token;
 }
+
+function extractJWTToken(token, secretKey) {
+  const decoded = jwt.verify(token, secretKey);
+  return decoded;
+}
+
+export { createJWTToken, extractJWTToken };

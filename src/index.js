@@ -8,6 +8,7 @@ import initAuthRouter from './router/authRouter.js';
 import AuthController from './controller/authController.js';
 import AuthRepository from './repository/authRepository.js';
 import AuthService from './service/authService.js';
+// import JWTMiddleware from './middleware/jwtMiddleware.js';
 
 const app = express();
 
@@ -20,11 +21,10 @@ const db = new Database(
   env.ENVIRONMENT
 );
 await db.initConnection();
-
-// eslint-disable-next-line no-unused-vars
 const model = new Model(db.connection);
 
 // Middleware
+// const jwtMiddleware = JWTMiddleware(env);
 app.use(express.json());
 
 // Repository
@@ -49,3 +49,5 @@ app.use((err, req, res, next) => {
 app.listen(env.APP_PORT, () => {
   console.log(`[INFO] Server started and listened on port ${env.APP_PORT}`);
 });
+
+await db.closeConnection();

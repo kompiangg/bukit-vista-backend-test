@@ -1,5 +1,5 @@
 import { md5Hash } from '../lib/crypto/md5.js';
-import createJWTToken from '../lib/token/jwt.js';
+import { createJWTToken } from '../lib/token/jwt.js';
 
 export default class AuthService {
   constructor(repo, env) {
