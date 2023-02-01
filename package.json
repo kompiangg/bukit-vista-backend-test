@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon --exec 'eslint ./ && node src/index.js' -w src",
+    "prod": "APP_ENV=prod node ./src/index.js",
+    "dev": "nodemon --exec 'eslint ./ && node ./src/index.js' -w src",
     "migrate": "node ./src/migrate.js"
   },
   "type": "module",

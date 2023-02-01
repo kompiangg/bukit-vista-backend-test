@@ -25,7 +25,7 @@ const db = new Database(
   env.DATABASE_HOST,
   env.DATABASE_PORT,
   env.DATABASE_NAME,
-  env.ENVIRONMENT
+  env.APP_ENV
 );
 
 await db.initConnection();
