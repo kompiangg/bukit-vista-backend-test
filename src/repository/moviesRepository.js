@@ -27,4 +27,21 @@ export default class MoviesRepository {
       }
     }
   };
+
+  getAllFavoriteMovieFromUser = async (userID) => {
+    const favoriteMovie = await this.model.FavoriteMovies.findAll({
+      where: {
+        user_id: userID,
+      },
+    });
+
+    const res = favoriteMovie.map((each) => {
+      return {
+        id: each.id,
+        title: each.title,
+      };
+    });
+
+    return res;
+  };
 }

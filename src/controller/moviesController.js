@@ -55,4 +55,12 @@ export default class MoviesController {
       }
     }
   };
+
+  getAllFavoriteMovieFromUser = async (req, res) => {
+    const allPoster = await this.service.getAllFavoriteMovieFromUser(
+      req.userContext.user_id
+    );
+
+    return writeJSONResponse({ res, code: StatusCodes.OK, data: allPoster });
+  };
 }

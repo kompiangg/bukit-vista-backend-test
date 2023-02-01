@@ -13,6 +13,12 @@ export default function initMoviesRouter(controller, middleware) {
   );
 
   moviesRouter.get(
+    '/movies/favorite',
+    middleware.jwtMiddleware,
+    handleAsync(controller.getAllFavoriteMovieFromUser)
+  );
+
+  moviesRouter.get(
     '/movies/:movieTitle',
     middleware.jwtMiddleware,
     handleAsync(controller.getMoviesPoster)

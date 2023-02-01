@@ -1,4 +1,4 @@
-import { BadRequest, Unauthorized } from '../lib/error/error.js';
+import { Forbidden } from '../lib/error/error.js';
 import { writeErrorResponse } from '../lib/http/response.js';
 import { extractJWTToken } from '../lib/token/jwt.js';
 
@@ -9,7 +9,7 @@ export default function JWTMiddleware(env) {
     if (!token) {
       return writeErrorResponse({
         res,
-        err: new BadRequest('authorization token must not be empty'),
+        err: new Forbidden(),
       });
     }
 
@@ -18,7 +18,7 @@ export default function JWTMiddleware(env) {
     if (splittedToken.split('.').length !== 3) {
       return writeErrorResponse({
         res,
-        err: new BadRequest('authorization token have invalid format'),
+        err: new Forbidden(),
       });
     }
 
@@ -28,7 +28,7 @@ export default function JWTMiddleware(env) {
     } catch (error) {
       return writeErrorResponse({
         res,
-        err: new Unauthorized('token expired'),
+        err: new Forbidden(),
       });
     }
 
